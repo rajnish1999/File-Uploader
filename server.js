@@ -3,10 +3,17 @@ const fileUpload = require('express-fileupload');
 
 const app = express();
 
-app.use(fileUpload);
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+
+
+app.use(fileUpload());
 
 //Upload Endpoint
 app.post('/upload', (req, res) => {
+    console.log(req.files);
+    console.log(req.data);
+
     if(req.files === null){
         return res.status(400).json({msg: 'No file uploaded'});
     }
@@ -15,7 +22,7 @@ app.post('/upload', (req, res) => {
 
     file.mv(`${__dirname}/client/public/uploads/${file.name}`, (err) => {
         if(err) {
-            console.log(err);
+            
             return res.status(500).send(err);
         }
 
