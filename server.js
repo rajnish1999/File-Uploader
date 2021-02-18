@@ -28,6 +28,7 @@ app.post('/upload', (req, res) => {
 
         res.json({ fileName: file.name, filePath: `/uploads/${file.name}`});
     })
+    
 })
 
 const port = process.env.PORT || 3500;

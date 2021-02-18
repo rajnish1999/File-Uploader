@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import axios from 'axios';
 import Message from './Message';
+import Progress from './Progress'
 
 export const FileUpload = () => {
     const [file, setFile] = useState('');
@@ -16,7 +17,9 @@ export const FileUpload = () => {
     };
 
     const onSubmit = async (e) => {
+        
         e.preventDefault();
+        
         const formData = new FormData();
         formData.append('file', file);
 
@@ -42,6 +45,7 @@ export const FileUpload = () => {
             const { fileName, filePath } = res.data;
 
             setUploadedFile({ fileName, filePath });
+            setMessage('File Uploaded');
         }catch(err) {
             // console.log("resp"+JSON.stringify(err.response));
             if(err.response.status === 500){
@@ -64,6 +68,9 @@ export const FileUpload = () => {
                     />
                     <label className="custom-file-label" htmlFor="customFile">{fileName}</label>
                 </div>
+
+                <Progress percentage={uploadPercentage} />
+
                 <input 
                     type="submit" 
                     value="upload" 
@@ -72,10 +79,12 @@ export const FileUpload = () => {
             </form>
             {/* {console.log(uploadedFile)} */}
             { uploadedFile ? 
-                <div className="row mt-5">
-                    <h3 className="text-center">{ uploadedFile.fileName }</h3>
-                    <img style={{ width: '100%' }} src={uploadedFile.filePath} alt="" />
-                </div> 
+                <div className='row mt-5'>
+                <div className='col-md-6 m-auto'>
+                  <h3 className='text-center'>{uploadedFile.fileName}</h3>
+                  <img style={{ width: '100%' }} src={uploadedFile.filePath} alt='' />
+                </div>
+              </div>
                 : null
             }
         </Fragment>
