@@ -9,6 +9,14 @@ app.use(express.json());
 
 app.use(fileUpload());
 
+const publicPath = path.join(__dirname, './client/public');
+
+app.use(express.static(publicPath));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(publicPath, 'index.html'));
+})
+
 //Upload Endpoint
 app.post('/upload', (req, res) => {
     // console.log(req.files);
